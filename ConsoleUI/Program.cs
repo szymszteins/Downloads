@@ -16,48 +16,46 @@ namespace ConsoleUI
         {
             string w;
             int i, t, ttl;
-            List<TimeSheetEntry> ents = new List<TimeSheetEntry>();
-            Console.Write("Enter what you did: ");
-            w = Console.ReadLine();
-            Console.Write("How long did you do it for: ");
-            t = int.Parse(Console.ReadLine());
-            TimeSheetEntry ent = new TimeSheetEntry();
-            ent.HoursWorked = t;
-            ent.WorkDone = w;
-            ents.Add(ent);
-            Console.Write("Do you want to enter more time:");
-            bool cont = bool.Parse(Console.ReadLine());
+            List<TimeSheetEntry> ents = new List<TimeSheetEntry>();           
+            bool cont = false;
             do
             {
                 Console.Write("Enter what you did: ");
                 w = Console.ReadLine();
                 Console.Write("How long did you do it for: ");
                 t = int.Parse(Console.ReadLine());
-                ent.HoursWorked = t;
-                ent.WorkDone = w;
+                TimeSheetEntry ent = new TimeSheetEntry() { HoursWorked = t, WorkDone = w };
                 ents.Add(ent);
                 Console.Write("Do you want to enter more time:");
-                cont = bool.Parse(Console.ReadLine());
+                cont = false;
+                string answer = Console.ReadLine();
+                if (answer.ToLower() == "yes")
+                {
+                    cont = true;
+                }
             } while (cont == true);
             ttl = 0;
             for (i = 0; i < ents.Count; i++)
             {
                 if (ents[i].WorkDone.Contains("Acme"))
                 {
-                    ttl += i;
+                    ttl += ents[i].HoursWorked;
                 }
             }
             Console.WriteLine("Simulating Sending email to Acme");
             Console.WriteLine("Your bill is $" + ttl * 150 + " for the hours worked.");
+            ttl = 0;
             for (i = 0; i < ents.Count; i++)
             {
                 if (ents[i].WorkDone.Contains("ABC"))
                 {
-                    ttl += i;
+                    ttl += ents[i].HoursWorked;
                 }
             }
             Console.WriteLine("Simulating Sending email to ABC");
             Console.WriteLine("Your bill is $" + ttl * 125 + " for the hours worked.");
+
+            ttl = 0;
             for (i = 0; i < ents.Count; i++)
             {
                 ttl += ents[i].HoursWorked;
